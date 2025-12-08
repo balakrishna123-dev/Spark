@@ -1,0 +1,31 @@
+what is  spark?
+ it is  a general purpose in memory computation engine
+
+ 1:general purpose:
+(before spark we use different tools for different purpose)
+ data cleaning--pig
+ query- hive
+ ml -operation: mahout
+
+After getting into the spark  each and everything we can perform  everything in spark itself
+(data cleaning
+sql
+sparkmlib)
+
+2:Computaton:
+hadoop vs spark
+
+hadoop provide 3 components
+1:hdfs  (storage)
+2:resoure manager
+3:map_Reduce--computation
+
+3 In -memory(ram)
+spark does all computation in in memeory
+spark is faster than map reduce( in  mapreduce each time input is taken from hdfs (from harddisk) it will get slower in spark because in-memory it just only 2 times 1 input and 1 output)
+
+Benefits of apache spark?
+1:fast( through in memory caching,and optimizes query execution spark can run fast analytics queries aganist data of any size)
+2:developer friendly:(supports  multiple api java,python,scla,sql,R)
+3:multiple workloads(ability to run multiple workloads, real time analytics ,ml and graph processing)
+
