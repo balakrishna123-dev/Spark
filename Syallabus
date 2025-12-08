@@ -1,0 +1,34 @@
+ Pyspark Tutorial:
+
+Syallbus for Pyspark on databricks Data enginner:
+1:what is pyspark?
+2: spark Architecture?
+3: what is rdd in spark?
+4:whar is dag and lazy evalution?
+5:datbricks community edition set up?
+6:databricks overview?
+7:dataframe pyspark?
+8:pyspark dataframe using joins?
+9:select function?
+10:withcolumn?
+11:filter in pyspark?
+12:drop and drop duplicates?
+13: sort and order by?
+14:group by?
+15:joining?
+16:union and union all?
+17:fill na?
+18 :collect?
+19:strcut type?
+20:pivot and unpivot?
+21:udf in pyspark?
+22:dataframe Transformation?
+23: create temp view?
+24:windows function using pyspark?
+25: dateformat function?
+26: partition by?
+27:explode function?
+28: cache and persist?
+29:pyspark interview question?
+pyspark project 1:
+databricks project?
