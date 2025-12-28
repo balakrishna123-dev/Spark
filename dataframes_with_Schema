@@ -1,0 +1,79 @@
+creating a dataframe?
+ with default Schema
+ from pyspark.sql import SparkSession  (# entry for spark is sparksession)t allows you to:
+
+#Create DataFrames
+#Read/write data
+#Run SQL queries
+#From Spark 2.x onward, SparkSession replaces SparkContext + SQLContext.
+
+ spark=SparkSession.builder.appName("Example").getOrCreate()
+
+#builder → Used to configure Spark
+#appName("Example") → Sets the name of the Spark application (you’ll see this in Spark UI)
+#getOrCreate() →If a SparkSession already exists → reuse it
+Otherwise → create a new one#
+ data=[(1,"Alice",29),(2,"balu",35)]
+
+# creating a dataframe?
+df=spark.createDataFrame(data,["id","name","age"])
+df.show()
+
+ Explict Schema:
+from pyspark.sql.types Import StructType,StructField,IntegerType, StringType
+ schema=StructType([
+   StructField("id",IntergerType(),True),
+   StructField("name",StringType(),True),
+   StructField("age",IntegerType(),True)])
+
+#These classes are used to define schema explicitly.
+#StructType → represents the entire schema
+#StructField → represents one column
+#IntegerType, StringType → column data types
+ df=spark.createDataFrame(data,schema=schema)
+
+What this does internally:
+Takes Python data (data)
+Applies the exact schema you defined
+Skips schema inference (faster & safer)
+
+
+Schema with String?
+ data=[(1,"Alice",29),(2,"balu",35)]
+schema ="id INT,name STRING,age INT"
+df=spark.createDataframe(data,schema=schema)
+
+Schema with String ,Boolean, Float
+data_basic = [
+    ("U001", True, 55000.75),
+    ("U002", False, 42000.50)
+]
+
+df_basic = spark.createDataFrame(data_basic, schema_basic)
+df_basic.show()
+df_basic.printSchema()
+
+Schema with Date format:
+from datetime import date, datetime
+from pyspark.sql.types import DateType, TimestampType
+
+schema_date = StructType([
+    StructField("order_id", StringType(), True),
+    StructField("order_date", DateType(), True),
+    StructField("created_at", TimestampType(), True)
+])
+
+
+data_date = [
+    ("O1001", date(2024, 12, 20), datetime(2024, 12, 20, 10, 30, 0)),
+    ("O1002", date(2024, 12, 21), datetime(2024, 12, 21, 14, 45, 0))
+]
+
+df_date = spark.createDataFrame(data_date, schema_date)
+df_date.show(truncate=False)
+df_date.printSchema()
+
+True → column CAN contain NULL values
+
+False → column CANNOT contain NULL values
+
