@@ -1,0 +1,16 @@
+{
+  "app_name": "PySpark Ingestion Framework",
+  "file_type": "csv",
+  "input_path": "C:/Users/balak/Downloads/data/Crop_recommendation.csv",
+  "options": {
+    "header": true,
+    "inferSchema": true
+  }
+}
+
+
+#Key	Meaning
+#app_name	Spark app name
+#file_type	csv / json / parquet
+#input_path	File location
+#options	Spark read options
