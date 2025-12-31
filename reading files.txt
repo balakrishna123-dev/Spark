@@ -1,0 +1,135 @@
+ # reading files  & writing files
+ #In Apache Spark, reading files and writing files mean loading data from storage into Spark for processing, and saving the processed data back to storage.
+ Reading files =
+Taking data that exists in external storage (local system, HDFS, S3, ADLS, etc.)
+ Loading it into Spark as a DataFrame (or RDD) so Spark can process it in parallel
+ Common file formats Spark can read
+
+CSV
+
+JSON
+
+Parquet
+
+ORC
+
+Avro (with package)
+
+Text files
+ 
+ #basic csv file:
+
+df=spark.read.format("csv").load("path.csv")
+
+# csv with header
+
+df=spark.read.option("header",True).csv("path.csv")
+
+# multiple option
+df=spark.read.option("header",True).option("InferSchema",True).option("delimiter",",").csv("path.csv")
+
+# with defined schema
+from pyspark.sql.types import StructType,StringType,IntegerType,StructField
+schema=StructType([
+StructField("name",StringType(),True),
+StructField("age",integerType(),True)
+
+df=spark.read.format("csv").schema(schema).load("path.csv")
+
+# reading Json files
+
+ df= spark.read.format("json").load("path.json")
+ 
+ # with multiline records
+ 
+ df=spark.read.option("Multiline",True).json("Path.json")
+ 
+ 
+ #What does “Writing files” mean in Spark?
+
+#Writing files =
+# Taking a Spark DataFrame
+# Saving it back to storage in a specific format
+
+#Important Writing Modes in Spark
+Mode	     Meaning
+overwrite	Delete existing data and write new
+append	    Add new data
+ignore	   Do nothing if data exists
+error	   Fail if data exists
+ 
+  #writing  csv files:
+  #Basic write to csv:
+  
+  df.write.csv("path.csv")
+  
+  #with header:
+  df.write.option("header",True).csv("path.csv")
+  
+   # with Multiple option
+   
+   df.write.option("header",True).option("delimiter","\").option("quote",'"').csv("path.csv")
+   
+   # overwrite existing files
+   df.write.mode("overwrite").option("header",True).csv("path.csv")
+   
+   #append to existing data
+   df.write.mode("append").option("header",True).csv("path.csv")
+   
+   #write as a single file
+   df.coalesce(1).write.option("header",true).csv("path.csv")
+    All the format same for  other files:
+	
+	#json files:
+	
+	#prettyformat(for readability)
+	
+	df.write.option("compression","none").json("path.json")
+	
+	#partitioned output
+	 df.write.partitionBy("column_name").json("path")
+	 
+	 
+	 # compression option(default is snappy) for parquet
+	 df.write.option("compression","gzip").parquet("path")
+	 
+	 ##compression for orc(zlib)
+	 df.write.option("compression","Zlib").orc("path")
+	 
+	 
+	 Delta Table/Files(Requires for deltalake)
+	 # basic Delta write
+	 df.write.format("delta").save("path")
+	 
+	 #Basic  Delta Table/Files
+	  df.write.format("delta").saveAsTable("table_name")
+	  
+	 #append mode
+	 df.write.format("delta").mode(("append").save("path")
+	 
+	 #overwrite mode
+	 df.write.format("delta").mode("overwrite").save("path")
+	 
+	 #with delta Specific Option(mergeshema,overwriteSchema)
+	 
+	 df.write.format("delta").option("overwriteSchema",True).mode("overwwrite").save("path")
+	 
+	 ## Partitioned output
+df.write.format("delta").partitionBy("column_name").save("/path/to/output_delta")
+
+# Bucketing
+df.write.bucketBy(numBuckets=4, col="column_name")\
+    .sortBy("column_name")\
+    .saveAsTable("table_name")
+
+# Bucketing by "name" into 4 buckets, sorting within each bucket
+df.write \
+  .bucketBy(4, "name") \
+  .sortBy("age") \
+  .mode("overwrite") \
+  .saveAsTable("bucketed_people")
+
+	 
+	 
+   
+ 
