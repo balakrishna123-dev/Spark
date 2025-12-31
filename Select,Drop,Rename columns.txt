@@ -1,0 +1,65 @@
+ 1# selecting  single the columns
+ 
+ : df=df.select("name")
+ 
+ # selecting multiole columns
+   df=df.select("name","age")
+
+# selecting the columns  dynimically
+
+ columns_to_select=("name","Department")
+ df=df.select(*columns_to_select)
+ 
+ 
+ 2:# Renaming a columns
+ 
+ #renaming a single columns
+  df=df.withColumnRenamed("name","Full_name")
+  
+  #Renaimg a multiple columns
+  df=df.withColumnRenamed("old_col1","new_col1")\
+        withColumnRenamed("old_col2","new_col_2")
+
+
+# rename the columns using select and alias
+ from pyspark.sql.functions import columns
+df=df.select(col("old_column_name1").alias("new_column_name1"),
+   col("old_column_name2").alias("new_column_name2")
+)
+
+
+3:Adding Columns
+ from pyspark.sql.functions import col,lit,expr,when
+
+# add a new column with constant  value
+ df=df.withColumn("country",lit("USA"))
+
+# add a new column with  a calculated value
+df=df.withColumn("salary_after_bonus", col("salary")*1.1)
+
+# add a column with  using sql expression
+df=df.withColumn("tax",expr("salary"*0.2))
+
+#Add a new column with conditional logic
+
+df=df.withColumn("high_earner",when(col("salary")>50000,"yes").otherwise("no"))
+
+
+# case with multiple condition?
+
+df=df.withColumn("Salary_category",
+when(col("salary")<60000,"low")
+.when(col("salary")>=60000)&(col("salary")<90000),"medium")
+.otherwise("high"))
+
+# adding Multiple columns  at once?
+
+df=df.withColumn({"bonus":col("salary")*0.1,"net_salary":col("salary")-col("salary")*0.3)})
+
+4:droping the columns
+
+# droping acolumn
+df=df.drop("department")
+
+#droping multiple columns
+df=df.drop("department","name","age")
