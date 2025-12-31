@@ -1,0 +1,100 @@
+ # filtering
+ 
+ you can refer to columns using  any of these notations: df.age,df['age'],col('age')
+ 
+ 1:#basic filtering( filters on >,<,<=,>=,== conditions)
+
+df_filtered=df.filter(df.age>30)
+df.filtered=df.filter(df['age']>30)
+
+# using col() function
+
+ from pyspark.sql.functions import col
+df_filtered= df.filter(col("age")>30)
+
+2:Filter with multiple conditions
+#multiple conditions require parenthesis around each conditions
+
+#AND conditions (&)
+
+df_filterd=df.filter(df.age>25)&(df.department=="engineering"))
+
+OR condition(|)
+
+df_filtered=df.filter(df.age>30)|(df.department="finance")
+
+
+3:String Filter
+
+# filter rows where department equal to "marketing"
+
+df_filtered=df.filter(df.department=="marketing")
+
+# case-Insenstive filter
+df_filtered=df.filter(col("department").like("MARKETING"))
+
+#contains a substring
+
+df_filtered= df.filter(col("department").contains("engineer"))
+
+#filter rows where name starts with "A"
+df.filter(col("name").startswith("A")).show()
+
+#filter rows where  name  ends with "e"
+
+df.filter(col("name").endswith("e").show()
+
+# filter  rows where the name matches a regex
+
+sdf.filter(col("name").rlike("^A.*")).show()
+
+
+4:Null filters:
+
+# filter rows where a column is null:
+df.filtered=df.filter(df.department.isNull))
+
+#filter rows where a column a column is not null
+df_filtered=df.filter(df.department.isNotNull)
+
+5: Filter From a list
+
+# filter rows where department is in alist
+
+departments=["Engineering","Finance"]
+df_filtered=df.filter(col("department").isin(department))
+
+#negate the filter(not in list)
+df_filtered=df.filter(~col("department")isin(departments))
+
+
+6:Data Cleansing
+
+#1 drop all fully duplicates rows(#removes rows where all columns are match exactly)
+df=df.dropDuplicates()
+
+2:drop Duplicates based on specific column (keep the  first row for  each unique column)
+
+df=df.dropDuplicates(["email"])
+
+3: Get only ditinct rows(same as select distinct)( #removes duolicates across all columns)
+df=df.distinct()
+
+4:drop rows with any null values(remove rows with even a single null field)
+
+df=df.dropna()
+
+5:Drops rows with nulls in specific columns(only keeps rows where email and age are not null)
+
+df=df.dropna(subset=["email","age"])
+
+6:fill missing values for all columns(#replace al null values  witha default value)
+
+df=df.fillna("N/A")
+
+7:fill missing values for specific columns((set deafult age as o and country is "unknown"
+ if missing)
+
+df=df.fillna({"age":0,"country": "unknown"})
+
+ 
