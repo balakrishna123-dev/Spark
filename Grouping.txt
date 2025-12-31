@@ -1,0 +1,51 @@
+  # grouping
+   # import the required functions
+   
+   from pyspark.sql.functions import count,sum,avg,min,max,countdistinct,collect_list,collect_Set
+   
+   1:#basic aggregation without grouping
+   
+   #count rows
+   df.count()
+   
+   #count Distinct Values in a column
+   df.select(countDistinct("department")).show()
+   
+   #multiple Aggregation
+   
+   df.select(min("salary"),max("salary")).show()
+   
+   
+   2:#aggregation with grouping
+   # group by a single column
+   df.groupby("department").sum("salary").show()
+   
+   group by with multiple columns
+   
+   df.groupBy("department","Employees").sum("salary").show()
+   
+   3:group by with multiple aggregations
+   
+   df.groupBy("department").agg(count("employees").alias("employee_count"),
+   avg("salary").alias("Avg_salary"),
+   max("salary").alias("max_salary")
+   )
+   
+   
+   filter after aggregation:
+   df.groupby("department").agg(sum("salary").alias("total_salary")).filter("total_salary>4000").show()
+   
+   3:Common aggregation functions
+Function	Description	Example
+count()==	Counts rows in a group.	groupBy("Department").count()
+sum()	==Sums values in a group.	groupBy("Department").sum("Salary")
+avg() / mean()	==Calculates average values.	groupBy("Department").avg("Salary")
+min()	==Finds the minimum value.	groupBy("Department").min("Salary")
+max()	==Finds the maximum value.	groupBy("Department").max("Salary")
+countDistinct()==	Counts distinct values in a group.	countDistinct("Employee")
+collect_list()==	Collects all values into a list.	collect_list("Employee")
+collect_set()==	Collects unique values into a set.	collect_set("Employee")
+   
+   
+   
+   
